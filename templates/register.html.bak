@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+</head>
+<body>
+     <form method="post" action=".">
+        {% csrf_token %}
+        <!-- 账号 -->
+        <div>
+            <label>账号</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <!-- 邮箱 -->
+        <div>
+            <label>Email</label>
+            <input type="text" class="form-control" id="email" name="email">
+        </div>
+        <!-- 密码 -->
+        <div>
+            <label>设置密码</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <!-- 确认密码 -->
+        <div>
+            <label>确认密码</label>
+            <input type="password" class="form-control" id="password2" name="password2" required>
+        </div>
+        <!-- 提交按钮 -->
+        <button type="submit" class="btn btn-primary">提交</button>
+    </form>
+</body>
+</html>

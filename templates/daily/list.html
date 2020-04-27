@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- extends表明此页面继承自 base.html 文件 -->
+{% extends "base.html" %}
+{% load staticfiles %}
+
+<!-- 写入 base.html 中定义的 title -->
+{% block title %}
+    日报列表
+{% endblock title %}
+
+<!-- 写入 base.html 中定义的 content -->
+{% block content %}
+<br/>
+<div class="container">
+    <div class="row">
+       <div class="col-md-4">
+          <form>
+              <div style="float:left;">
+                   <input id="datepicker" name="date" class="col-12">
+              </div>
+              <div>
+                  <input type="submit" class="btn btn-success" value="搜索">
+              </div>
+           </form>
+      </div>
+      <div class="col-md-8">
+{#          <button type="button" class="btn btn-primary" onclick="export_excel()" style="float:right;">导出excel</button>#}
+            <div class="btn-group" style="float:right;">
+                <button type="button" class="btn btn-primary" onclick="write_daily()">写日报</button>
+                <button type="button" class="btn btn-warning" onclick="export_excel()">导出excel</button>
+            </div>
+      </div>
+    </div>
+</div>
+
+<hr>
+<div class="container">
+     <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>姓名</th>
+                <th>今日项目进度</th>
+                <th>今日自动化进度</th>
+                <th>明日计划（业务&自动化）</th>
+                <th>日期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+     <tbody>
+       {% for daily in dailylist %}
+            <tr>
+                <td>{{ daily.author.profile.nikename }}</td>
+                <td>{{ daily.todaytask|safe|linebreaksbr }}</td>
+                <td>{{ daily.autotask|safe|linebreaksbr }}</td>
+                <td>{{ daily.tomorrowtask|safe|linebreaksbr}}</td>
+                <td>{{ daily.created|date:'Y-m-d' }}</td>
+                <td><a href="{% url "daily:edit" daily.id %}">编辑</a></td>
+            </tr>
+       {% endfor %}
+     </tbody>
+    </table>
+
+    <!-- 页码导航 -->
+    <div class="pagination row">
+        <div class="m-auto">
+            <span class="step-links">
+                <!-- 如果不是第一页，则显示上翻按钮 -->
+                {% if dailylist.has_previous %}
+                    <a href="?page=1" class="btn btn-success">&laquo; 1</a>
+                    <span>...</span>
+                    <a href="?page={{ dailylist.previous_page_number }}"
+                       class="btn btn-secondary"
+                    >
+                        {{ dailylist.previous_page_number }}
+                    </a>
+                {% endif %}
+
+                <!-- 当前页面 -->
+                <span class="current btn btn-danger">
+                    {{ dailylist.number }}
+                </span>
+
+                <!-- 如果不是最末页，则显示下翻按钮 -->
+                {% if dailylist.has_next %}
+                    <a href="?page={{ dailylist.next_page_number }}"
+                       class="btn btn-secondary"
+                    >
+                        {{ dailylist.next_page_number }}
+                    </a>
+                    <span>...</span>
+                    <a href="?page={{ dailylist.paginator.num_pages }}"
+                       class="btn btn-success"
+                    >
+                        {{ dailylist.paginator.num_pages }} &raquo;
+                    </a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

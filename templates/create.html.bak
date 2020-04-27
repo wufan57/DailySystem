@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新建日报</title>
+</head>
+<body>
+    <form action="." method="post">
+        {% csrf_token %}
+        <p>今日任务：<input type="text" name="todaytask"/></p>
+        <p>明日计划：<input type="text" name="tomorrowtask"/></p>
+        <p><input type="submit" value="提交"/></p>
+
+    </form>
+</body>
+</html>

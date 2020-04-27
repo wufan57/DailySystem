@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+{% load staticfiles %}
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+{#    <link href="https://cdn.bootcss.com/gijgo/1.9.13/combined/css/gijgo.min.css" rel="stylesheet">#}
+    <link rel="stylesheet" href="{% static 'gijgo/css/gijgo.min.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">日期选择演示</h4>
+                        <p class="card-text">请选择日期</p>
+                        <input id="datepicker" class="col-12">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'jquery/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'popper/popper-1.14.4.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'gijgo/js/gijgo.min.js' %}"></script>
+    <script src="{% static 'gijgo/js/messages/messages.zh-cn.min.js' %}"></script>
+    <script>
+        $("#datepicker").datepicker({
+            locale: 'zh-cn',
+            format: 'yyyy-mm-dd',
+            weekStartDay: 1
+        });
+    </script>
+</body>
+
+</html>

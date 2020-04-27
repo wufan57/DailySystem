@@ -1,0 +1,102 @@
+<!-- 载入静态文件 -->
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>日报列表</title>
+</head>
+<body>
+    <div>
+        {% if user.is_authenticated %}
+            你好， {{ user.username }}<br/>
+            <a href="{% url "userprofile:edit" user.id %}">编辑昵称</a>
+            <a href="{% url "userprofile:logout" %}">退出登录</a> <br/>
+            <a href="{% url "daily:create" %}">写日报</a>
+            <button onclick="export_excel()">导出excel</button>
+            <br/>
+        <!-- 如果用户未登录，则显示 “登录” -->
+        {% else %}
+            <a class="nav-link" href="{% url 'userprofile:login' %}">登录</a>
+            <a class="nav-link" href="{% url 'userprofile:register' %}">注册</a>
+        {% endif %}
+    </div>
+    <div>
+        <form>
+                <label>搜索日期</label>
+                <input type="text" name="date" placeholder="格式：2020-01-01">
+                <input type="submit" value="搜索日期"/>
+        </form>
+    </div>
+    <table border="1" cellspacing="0" width="500px">
+    <tr>
+        <th>姓名</th>
+        <th>今日任务</th>
+        <th>明日计划</th>
+        <th>日期</th>
+        <th>附件</th>
+    </tr>
+    {% for daily in dailylist %}
+        <tr>
+            <td>{{ daily.author }}</td>
+            <td>{{ daily.todaytask }}</td>
+            <td>{{ daily.tomorrowtask }}</td>
+            <td>{{ daily.created|date:'Y-m-d' }}</td>
+            <td>{{ daily.dailyfile }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <!-- 页码导航 -->
+    <ul style="float:left;">
+        <li style="float:left;list-style-type:none;">
+            <!-- 如果不是第一页，则显示上翻按钮 -->
+            {% if dailylist.has_previous %}
+                <a href="?page=1&date={{ date }}">&laquo; 1</a>
+                <span>...</span>
+                <a href="?page={{ dailylist.previous_page_number }}&date={{ date }}">
+                    {{ dailylist.previous_page_number }}
+                </a>
+            {% endif %}
+        </li>
+        <li style="float:left;list-style-type:none;">
+            <!-- 当前页面 -->
+            {{ dailylist.number }}
+        </li>
+         <li style="float:left;list-style-type:none;">
+            <!-- 如果不是最末页，则显示下翻按钮 -->
+            {% if dailylist.has_next %}
+                <a href="?page={{ dailylist.next_page_number }}&date={{ date }}">
+                    {{ dailylist.next_page_number }}
+                </a>
+                <span>...</span>
+                <a href="?page={{ dailylist.paginator.num_pages }}&date={{ date }}">
+                    {{ dailylist.paginator.num_pages }} &raquo;
+                </a>
+            {% endif %}
+        </li>
+    </ul>
+
+    <script src="{% static 'jquery/jquery-3.3.1.js' %}"></script>
+    <script>
+        function export_excel() {
+            {#    $.ajax({#}
+            {#        async: false,#}
+            {#        url: '/daily/excel_export/',#}
+            {#        type: 'GET',#}
+            {#        data: {},#}
+            {#        success: function (result) {#}
+            {#            alert(result.flag)#}
+            {#        }#}
+            {#    })#}
+            var post_url = '/daily/excel_export/';
+            location.replace(post_url);
+
+        }
+
+
+    </script>
+
+</body>
+</html>

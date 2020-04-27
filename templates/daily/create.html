@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% extends "base.html" %} {% load staticfiles %}
+{% block title %} 写日报 {% endblock title %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <br>
+            <form method="post" action=".">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>今日项目进度</label>
+{#                    <input type="text" class="form-control" name="todaytask">#}
+                     <textarea type="text" class="form-control" name="todaytask" rows="5" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>今日自动化进度</label>
+                    <textarea type="text" class="form-control" name="autotask" rows="5"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>明日计划（业务&自动化）</label>
+{#                    <input type="text" class="form-control" name="tomorrowtask">#}
+                    <textarea type="text" class="form-control" name="tomorrowtask" rows="5" required></textarea>
+                </div>
+                <!-- 提交按钮 -->
+                <button type="submit" class="btn btn-primary">提交</button>
+                <button type="button" class="btn btn-warning" onclick="to_dailylist()">返回</button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}

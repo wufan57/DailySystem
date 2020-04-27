@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends "base.html" %} {% load staticfiles %}
+{% block title %} 编辑日报 {% endblock title %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <br>
+            <form method="post" action=".">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>今日项目进度</label>
+                     <textarea type="text" class="form-control" name="todaytask" rows="5" required>{{ daily.todaytask }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>今日自动化进度</label>
+                    <textarea type="text" class="form-control" name="autotask" rows="5">{{ daily.autotask }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>明日计划（业务&自动化）</label>
+                    <textarea type="text" class="form-control" name="tomorrowtask" rows="5" required>{{ daily.tomorrowtask }}</textarea>
+                </div>
+                <!-- 提交按钮 -->
+                <button type="submit" class="btn btn-primary">更新</button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}
